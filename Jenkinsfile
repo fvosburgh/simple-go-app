@@ -13,7 +13,7 @@ spec:
 """
   ) {
 
-  node('build-slave') {
+  node('deploy-slave') {
     stage('checkout') {
       checkout scm
     }

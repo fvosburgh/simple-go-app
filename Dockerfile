@@ -5,4 +5,4 @@ COPY ./main.go /app
 WORKDIR /app
 RUN go build -o main .
 USER gouser
-CMD ["./main"]
+CMD ["main"]
