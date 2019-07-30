@@ -10,7 +10,7 @@ spec:
     command:
     - /busybox/cat
     tty: true
-""", label: "kaniko"
+""", label: "kaniko", cloud: "kubernetes", namespace: "jenkins", serviceAccount: "jenkins"
   ) {
   node('kaniko') {
     stage('checkout') {
