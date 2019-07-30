@@ -1,4 +1,4 @@
-podTemplate(yaml: """
+podTemplate(label: "kaniko", cloud: "kubernetes", namespace: "jenkins", serviceAccount: "jenkins", yaml: """
 kind: Pod
 metadata:
   name: kaniko
@@ -10,7 +10,7 @@ spec:
     command:
     - /busybox/cat
     tty: true
-""", label: "kaniko", cloud: "kubernetes", namespace: "jenkins", serviceAccount: "jenkins"
+"""
   ) {
   node('kaniko') {
     stage('checkout') {
