@@ -10,7 +10,7 @@ spec:
     command:
     - /busybox/cat
     tty: true
-""", label: kaniko
+""", label: "kaniko"
   ) {
   node('kaniko') {
     stage('checkout') {
