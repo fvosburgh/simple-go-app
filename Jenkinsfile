@@ -10,10 +10,9 @@ spec:
     command:
     - /busybox/cat
     tty: true
-"""
+""", label: kaniko
   ) {
-
-  node(POD_LABEL) {
+  node('kaniko') {
     stage('checkout') {
       checkout scm
     }
