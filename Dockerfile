@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:1.11-alpine
 ENV GOCACHE=off
 RUN mkdir /app \
     && addgroup -S gouser \
