@@ -1,4 +1,4 @@
-podTemplate(label: "kaniko", cloud: "kubernetes", namespace: "jenkins", serviceAccount: "jenkins", yaml: """
+podTemplate(yaml: """
 kind: Pod
 metadata:
   name: kaniko
@@ -12,7 +12,7 @@ spec:
     tty: true
 """
   ) {
-  node('kaniko') {
+  node(POD_LABEL) {
     stage('checkout') {
       checkout scm
     }
@@ -20,7 +20,7 @@ spec:
       container(name: 'kaniko', shell: '/busybox/sh') {
         withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
           sh '''#!/busybox/sh
-          /kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true
+          /kaniko/executor -f `pwd`/Dockerfile -c `pwd` --no-push
           '''
         }
       }
