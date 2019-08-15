@@ -37,7 +37,5 @@ spec:
         }
       }
     }
-    stage('push'){
-    }
   }
 }

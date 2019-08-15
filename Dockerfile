@@ -1,4 +1,4 @@
-FROM golang:1.11-alpine
+FROM harbor.training.boxboat.io/library/go-app-base as build
 ENV GOCACHE=off
 RUN mkdir /app \
     && addgroup -S gouser \
@@ -7,5 +7,9 @@ RUN mkdir /app \
 COPY ./main.go /app
 WORKDIR /app
 RUN go build -o main .
-USER gouser
-CMD ["main"]
+
+FROM alpine:latest
+COPY --from=build /app/main .
+RUN chmod +x main
+EXPOSE 80
+CMD ["./main"]
