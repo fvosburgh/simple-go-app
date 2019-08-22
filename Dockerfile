@@ -1,4 +1,4 @@
-FROM harbor.training.boxboat.io/library/go-app-base as build
+FROM harbor.azure.training.boxboat.io/library/go-app-base as build
 ENV GOCACHE=off
 RUN mkdir /app \
     && addgroup -S gouser \
