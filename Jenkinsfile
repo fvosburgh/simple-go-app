@@ -20,7 +20,7 @@ spec:
       - secret:
           name: harbor-credentials
           items:
-            - key: config.json
+            - key: .dockerconfigjson
               path: .docker/config.json
 """
   ) {
