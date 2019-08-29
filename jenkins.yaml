@@ -1,0 +1,10 @@
+common:
+  images:
+    - demo/sample-app
+build:
+  composeProfileMap:
+    'push': './build/docker/push/'
+  pullImages:
+    - poc-dtr-1.boxboat.net/admin/demo/go-app-base:commit-master
+promote:
+  baseVersion: "0.1.0"
