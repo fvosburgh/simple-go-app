@@ -1,25 +1,41 @@
-@Library('jenkins-shared-library@master')
-import com.demo.jenkins.pipeline.build.*
-
-properties(demoBuildProps.props())
-
-def build = new demoBuild()
-
-node(label: 'docker') {
-  build.wrap {
-
-    stage('Setup') {
-      build.composeBuild('app')
+podTemplate(yaml: """
+kind: Pod
+metadata:
+  name: kaniko-yaml
+spec:
+  containers:
+  - name: kaniko-yaml
+    image: gcr.io/kaniko-project/executor:debug-539ddefcae3fd6b411a95982a830d987f4214251
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko
+  volumes:
+  - name: jenkins-docker-cfg
+    projected:
+      sources:
+      - secret:
+          name: harbor-credentials
+          items:
+            - key: .dockerconfigjson
+              path: .docker/config.json
+"""
+  ) {
+  node(POD_LABEL) {
+    stage('checkout') {
+      checkout scm
     }
-
-    stage('Test'){
-      build.composeUp('app')
-      sh './build/test/test-app.sh'
+    stage('build') {
+      container(name: 'kaniko-yaml', shell: '/busybox/sh') {
+        withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
+          sh '''#!/busybox/sh
+          /kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --destination=index.docker.io/paralyzedhorse/go-app
+          '''
+        }
+      }
     }
-
-    stage ('Push'){
-      build.push()
-    }
-
   }
 }
