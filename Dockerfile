@@ -1,4 +1,4 @@
-FROM harbor.training.boxboat.io/demo/base-image:latest as build
+FROM harbor.training.boxboat.io/library/base-image:latest as build
 ENV GOCACHE=off
 RUN mkdir /app \
     && addgroup -S gouser \
